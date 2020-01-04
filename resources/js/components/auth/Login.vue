@@ -25,27 +25,31 @@
                 <v-spacer />
             </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form @submit.prevent="login">
                   <v-text-field
                     label="Login"
                     name="login"
                     prepend-icon="person"
-                    type="text"
+                    type="email"
+                    v-model="form.email"
                   />
 
                   <v-text-field
                     id="password"
                     label="Password"
                     name="password"
+                    v-model="form.password"
                     prepend-icon="lock"
                     type="password"
                   />
+                <v-card-actions>
+                <v-spacer />
+                <v-btn color="primary" type="submit">Login</v-btn>
+              </v-card-actions>
+
                 </v-form>
               </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="primary">Login</v-btn>
-              </v-card-actions>
+
             </v-card>
           </v-col>
         </v-row>
@@ -59,6 +63,23 @@
       name:"Login",
     props: {
       source: String,
+    },
+
+    data() {
+        return {
+            form:{
+                email:null,
+                password:null
+            }
+        }
+    },
+
+    methods: {
+        login(){
+            axios.post('/api/auth/login',this.form)
+            .then(res => console.log(res.data))
+
+        }
     },
   }
 </script>
